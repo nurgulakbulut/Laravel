@@ -28,4 +28,10 @@ Route::get('articles/{id}',[ArticleController::class, 'show']);
 
 Route::post('articles', [ArticleController::class, 'store']);
 
+Route::get('articles/{id}/edit', [ArticleController::class, 'edit']);
+
+Route::put('articles/{id}', [ArticleController::class, 'update']);
+
+Route::delete('articles/{id}', [ArticleController::class, 'destroy']);
+
 Route::resource('categories', CategoryController::class);

@@ -41,4 +41,35 @@ class ArticleController extends Controller
 
         return redirect('/articles/' . $article->id);
     }
+
+    public function edit($id)
+    {
+         $article = Article::with(['category'])->findOrFail($id);
+         $categories = Category::all();
+         return view('articles.edit', compact('article','categories'));
+    }
+
+    public function update(Request $request,$id)
+    {
+         $request->validate([
+             'title' => 'required',
+             'category_id' => 'required|numeric|exists:categories,id',
+             'content' => 'required'
+         ]);
+         $article = Article::findOrFail($id);
+         $article->title = $request->title;
+         $article->category_id = $request->category_id;
+         $article->content = $request->content;
+         $article->save();
+
+         return redirect('/articles/' . $article->id);
+    }
+
+    public function destroy($id)
+    {
+        $article = Article::findOrFail($id);
+        $article->delete();
+
+        return redirect('/articles');
+    }
 }
